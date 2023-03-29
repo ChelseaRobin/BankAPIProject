@@ -1,8 +1,19 @@
+using BankAPI.Models;
+using BankAPI.Services;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
+builder.Services.AddScoped<IMethods, Methods>();
+
+builder.Services.AddDbContext<BankContext>(opt =>
+    opt.UseInMemoryDatabase("CustomerList"));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
