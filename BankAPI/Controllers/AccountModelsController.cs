@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using BankAPI.Models;
 using BankAPI.Services;
+using BankAPI.ViewModels;
 
 namespace BankAPI.Controllers
 {
@@ -11,9 +12,9 @@ namespace BankAPI.Controllers
     {
         private readonly BankContext _context;
 
-        private readonly IMethods _methods;
+        private readonly IBankService _methods;
 
-        public AccountModelsController(BankContext context, IMethods methods)
+        public AccountModelsController(BankContext context, IBankService methods)
         {
             _context = context;
             _methods = methods;
@@ -46,6 +47,16 @@ namespace BankAPI.Controllers
             }
 
             return account;
+        }
+
+        // PUT: api/TodoItems/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("Transfer")]
+        public async Task<string> UpdateAccount(int Amount, string senderAccNum, string recipientAccNumm)
+        {
+            var update = await _methods.TransferAmount(Amount, senderAccNum, recipientAccNumm);
+
+            return update;
         }
 
         // POST: api/AccountModels

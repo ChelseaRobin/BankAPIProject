@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BankAPI.Models
+namespace BankAPI.ViewModels
 {
     public class AccountModel
     {
         [Key]
-        [ConcurrencyCheck] //do we need this?
-        public string AccountNumber { get; set; } = Guid.NewGuid().ToString(); 
+        //[ConcurrencyCheck] //do we need this?
+        public string AccountNumber { get; set; }
 
-        public int CustomerId { get; set; } 
-        public int Amount { get; set; } //inital deposit
+        public int CustomerId { get; set; }
+        public int Balance { get; set; } //inital deposit
 
         public virtual CustomerModel Customer { get; set; }
         //public virtual ICollection<TransactionModel> TransactionsList { get; set; }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using BankAPI.Models;
 using BankAPI.Services;
+using BankAPI.ViewModels;
 
 namespace BankAPI.Controllers
 {
@@ -11,9 +12,9 @@ namespace BankAPI.Controllers
     {
         private readonly BankContext _context;
 
-        private readonly IMethods _methods;
+        private readonly IBankService _methods;
 
-        public CustomerModelsController(BankContext context, IMethods methods)
+        public CustomerModelsController(BankContext context, IBankService methods)
         {
             _context = context;
             _methods = methods;

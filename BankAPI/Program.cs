@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
-builder.Services.AddScoped<IMethods, Methods>();
+builder.Services.AddScoped<IBankService, BankService>();
 
 builder.Services.AddDbContext<BankContext>(opt =>
     opt.UseInMemoryDatabase("CustomerList"));

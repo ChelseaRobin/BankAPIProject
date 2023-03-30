@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BankAPI.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankAPI.Models;
 
