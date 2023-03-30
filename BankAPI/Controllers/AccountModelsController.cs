@@ -31,7 +31,7 @@ namespace BankAPI.Controllers
             return await _context.Accounts.Include(c => c.Customer).ToListAsync(); //incluse customer that have the same name
         }
 
-        // GET: api/AccountModels/5
+        // GET: api/AccountModels
         [HttpGet("ByAccountNumber")] //gets account by account number
         public async Task<ActionResult<AccountModel>> GetAccountByNum(string accountNum)
         {
@@ -49,19 +49,19 @@ namespace BankAPI.Controllers
             return account;
         }
 
-        // PUT: api/TodoItems/5
+        // PUT: api/AccountsModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("Transfer")]
-        public async Task<string> UpdateAccount(int Amount, string senderAccNum, string recipientAccNumm)
+        [HttpPut("Transfer")] //
+        public async Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNumm)
         {
-            var update = await _methods.TransferAmount(Amount, senderAccNum, recipientAccNumm);
+            var update = await _methods.TransferFunds(Amount, senderAccNum, recipientAccNumm);
 
             return update;
         }
 
         // POST: api/AccountModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("CreateNewAccount")]//Find customer and add to customer account list and transactions list
+        [HttpPost("CreateNewAccount")]//Find customer and creates new account and adds to account list
         public async Task<string> CreateAccount(int CustomerId, int Deposit)
         {
             if (!CustomerExists(CustomerId))
@@ -81,7 +81,7 @@ namespace BankAPI.Controllers
 
 
 
-        // DELETE: api/AccountModels/5
+        // DELETE: api/AccountModels
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccountModel(int id)
         {

@@ -59,7 +59,7 @@ public class BankService : IBankService
     }
 
    
-    public async Task<string> TransferAmount(int Amount, string senderAccNum, string recipientAccNum)
+    public async Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNum)
     {
         var account = _bankContext.Accounts;
 
@@ -67,24 +67,18 @@ public class BankService : IBankService
 
         var NewBalanceS = 0;
 
-        var recipient = await account.FirstOrDefaultAsync(a => a.AccountNumber.Equals(recipientAccNum));
+        var recipient = await account.FirstOrDefaultAsync(a => a.AccountNumber.Equals(recipientAccNum)); //Gets account that matches recipient's account number
 
-        var sender = await account.FirstOrDefaultAsync(a => a.AccountNumber.Equals(senderAccNum));
+        var sender = await account.FirstOrDefaultAsync(a => a.AccountNumber.Equals(senderAccNum)); //Gets account that matches sender's account number
 
-        if (recipient != null)
+        if (recipient != null & sender != null)
         {
-            NewBalanceR = UpdateRecipient(Amount, recipient.Balance);
+            NewBalanceR = RecipientCalcu(Amount, recipient.Balance);
+            NewBalanceS = SenderCalcu(Amount, sender.Balance);
+
             recipient.Balance = NewBalanceR;
-        }
-
-        if (sender != null)
-        {
-            NewBalanceS = UpdateSender(Amount, sender.Balance);
             sender.Balance = NewBalanceS;
         }
-
-        _bankContext.Update(recipient);
-        _bankContext.Update(sender);
 
         await _bankContext.SaveChangesAsync();
 
@@ -92,13 +86,13 @@ public class BankService : IBankService
 
     }
 
-    private int UpdateRecipient(int Amount, int Recipient)
+    private int RecipientCalcu(int Amount, int Recipient)
     {
         var NewBalance = Recipient + Amount;
         return NewBalance;
     }
 
-    private int UpdateSender(int Amount, int Sender)
+    private int SenderCalcu(int Amount, int Sender)
     {
         var NewBalance = Sender - Amount;
         return NewBalance;
