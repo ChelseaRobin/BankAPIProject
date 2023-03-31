@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace BankAPI.ViewModels
+namespace BankAPI.Models
 {
     public class CustomerModel
     {

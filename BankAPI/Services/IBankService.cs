@@ -7,5 +7,7 @@
         Task<string> CreateCustomer(string CustomerName);
 
         Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNum);
+
+        Task AddTransaction(string accNum);
     }
 }

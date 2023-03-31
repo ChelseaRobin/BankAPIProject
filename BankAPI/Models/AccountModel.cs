@@ -1,18 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BankAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace BankAPI.ViewModels
+namespace BankAPI.Models
 {
     public class AccountModel
     {
         [Key]
-        //[ConcurrencyCheck] //do we need this?
         public string AccountNumber { get; set; }
 
         public int CustomerId { get; set; }
         public int Balance { get; set; } //inital deposit
 
         public virtual CustomerModel Customer { get; set; }
-        //public virtual ICollection<TransactionModel> TransactionsList { get; set; }
+        public virtual ICollection<TransactionsModel> TransactionsList { get; set; }
 
     }
 }

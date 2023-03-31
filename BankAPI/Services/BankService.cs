@@ -1,6 +1,7 @@
 ﻿using BankAPI.Models;
-using BankAPI.ViewModels;
+using BankAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace BankAPI.Services;
 
@@ -12,6 +13,41 @@ public class BankService : IBankService
     public BankService(BankContext bankContext)
     {
         _bankContext = bankContext;
+    }
+
+    public async Task AddTransaction(string accNum)
+    {
+        var transaction = new TransactionsModel()
+        {
+            accnum = accNum,
+        };
+
+        var accounts = _bankContext.Accounts;
+        foreach (var account in accounts)
+        {
+            if (account.AccountNumber == accNum)
+            {
+                if (account.TransactionsList == null)
+                {
+                    account.TransactionsList = new List<TransactionsModel>
+                {
+                    transaction
+                };
+                }
+                else
+                {
+                    account.TransactionsList.Add(transaction);
+                }
+
+                _bankContext.Update(account);
+
+                await _bankContext.SaveChangesAsync();
+                break;
+            }
+            
+           
+        }
+     
     }
 
     public async Task<string> CreateAccount(int CustomerId, int Deposit)
@@ -40,6 +76,8 @@ public class BankService : IBankService
 
         var accountNum = account.First().AccountNumber.ToString();
 
+        AddTransaction(accountNum);
+
         return accountNum;
     }
 
@@ -54,7 +92,7 @@ public class BankService : IBankService
 
         var customerId = _bankContext.Customers.Count();
 
-        return customerId.ToString(); //how to return exact customer Id.
+        return customerId.ToString(); 
 
     }
 

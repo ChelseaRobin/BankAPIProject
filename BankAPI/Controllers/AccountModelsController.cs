@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using BankAPI.Models;
 using BankAPI.Services;
-using BankAPI.ViewModels;
 
 namespace BankAPI.Controllers
 {
