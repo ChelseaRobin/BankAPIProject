@@ -12,7 +12,7 @@ public class BankContext : DbContext
 
     public DbSet<AccountModel> Accounts { get; set; } = null!;
     public DbSet<CustomerModel> Customers { get; set; } = null!;
-    public DbSet<TransactionsModel>Transactions { get; set; } = null!;  
+    public DbSet<TransactionsModel> TransactionsModel { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) //specifies tables and their relationships
     {
@@ -27,6 +27,4 @@ public class BankContext : DbContext
         //    .IsConcurrencyToken();
 
     }
-
-    public DbSet<BankAPI.Models.TransactionsModel> TransactionsModel { get; set; } = default!;
 }

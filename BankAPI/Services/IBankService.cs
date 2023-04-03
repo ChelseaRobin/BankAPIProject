@@ -8,6 +8,6 @@
 
         Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNum);
 
-        Task AddTransaction(string accNum);
+        Task AddTransaction(int balance, string accNum, string msg);
     }
 }

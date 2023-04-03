@@ -27,7 +27,7 @@ namespace BankAPI.Controllers
             {
                 return NotFound();
             }
-            return await _context.Accounts.Include(c => c.Customer).ToListAsync(); //incluse customer that have the same name
+            return await _context.Accounts.Include(c => c.Customer.AccountsList).Include(a => a.TransactionsList).ToListAsync(); //incluse customer that have the same name
         }
 
         // GET: api/AccountModels
@@ -38,7 +38,7 @@ namespace BankAPI.Controllers
             {
                 return NotFound();
             }
-            var account = await _context.Accounts.Include(a => a.Customer).FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNum.AsEnumerable()));
+            var account = await _context.Accounts.Include(a => a.Customer).Include(a => a.TransactionsList).FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNum.AsEnumerable()));
 
             if (account == null)
             {
@@ -50,7 +50,7 @@ namespace BankAPI.Controllers
 
         // PUT: api/AccountsModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("Transfer")] //
+        [HttpPut("Transfer")] //Updates balances
         public async Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNumm)
         {
             var update = await _methods.TransferFunds(Amount, senderAccNum, recipientAccNumm);

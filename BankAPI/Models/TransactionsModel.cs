@@ -6,9 +6,9 @@ namespace BankAPI.Models
     {
         [Key]
         public int Id { get; set; } 
-        //add balance
-        public string accnum { get; set; }
-
-        //add date and time
+        public int Balance { get; set; }
+        public string AccountNumber { get; set; }
+        public string Message { get; set; }
+        public string DateTimeStamp{ get; set; }
     }
 }
