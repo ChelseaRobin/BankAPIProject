@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BankAPI.Models;
+using System.Collections.Generic;
 
 namespace BankAPI.Controllers
 {
@@ -17,18 +18,9 @@ namespace BankAPI.Controllers
 
         // GET: api/TransactionsModels/5
         [HttpGet("GetByAccountNumber")]  //Get by account number
-        public async Task<ActionResult<TransactionsModel>> GetTransactionsModel(string accountNumber)
+        public async Task<List<TransactionsModel>> GetTransactionsModel(string accountNumber)
         {
-          if (_context.TransactionsModel == null)
-          {
-              return NotFound();
-          }
-            var transactions = await _context.TransactionsModel.FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNumber));
-
-            if (transactions == null)
-            {
-                return NotFound();
-            }
+            var transactions = await _context.TransactionsModel.Where(a => a.AccountNumber.Equals(accountNumber)).ToListAsync();
 
             return transactions;
         }
@@ -53,9 +45,9 @@ namespace BankAPI.Controllers
             return NoContent();
         }
 
-        private bool TransactionsModelExists(int id)
-        {
-            return (_context.TransactionsModel?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        //private bool TransactionsModelExists(int id)
+        //{
+        //    return (_context.TransactionsModel?.Any(e => e.Id == id)).GetValueOrDefault();
+        //}
     }
 }

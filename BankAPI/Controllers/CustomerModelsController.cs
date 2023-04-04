@@ -28,7 +28,7 @@ namespace BankAPI.Controllers
                 throw new Exception("not found");
             }
 
-            return await _context.Customers.Include(c => c.AccountsList).Include(c => c.AccountsList).ToListAsync();
+            return await _context.Customers.Include(c => c.AccountsList).ToListAsync();
         }
 
 

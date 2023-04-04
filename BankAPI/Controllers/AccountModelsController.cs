@@ -27,7 +27,7 @@ namespace BankAPI.Controllers
             {
                 return NotFound();
             }
-            return await _context.Accounts.Include(c => c.Customer.AccountsList).Include(a => a.TransactionsList).ToListAsync(); //incluse customer that have the same name
+            return await _context.Accounts.Include(c => c.Customer.AccountsList).ToListAsync(); //incluse customer that have the same name
         }
 
         // GET: api/AccountModels

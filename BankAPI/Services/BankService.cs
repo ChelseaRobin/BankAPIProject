@@ -1,9 +1,5 @@
 ﻿using BankAPI.Models;
-using BankAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using NuGet.Packaging.Signing;
-using System.Security.Principal;
 
 namespace BankAPI.Services;
 
@@ -19,42 +15,37 @@ public class BankService : IBankService
 
     public async Task AddTransaction(int balance, string accNum, string msg)
     {
-        
-        var transaction = new List<TransactionsModel>
+
+        var transaction = new TransactionsModel()
         {
-            new TransactionsModel()
-            {
-                Balance = balance,
-                AccountNumber = accNum,
-                Message = msg,
-                DateTimeStamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
-            }
+            Balance = balance,
+            AccountNumber = accNum,
+            Message = msg,
+            DateTimeStamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
         };
+        
 
         var accounts = _bankContext.Accounts;
         foreach (var account in accounts)
         {
             if (account.AccountNumber == accNum)
             {
-                account.TransactionsList = transaction;
-                //if (account.TransactionsList == null)
-                //{
-                //    account.TransactionsList = new List<TransactionsModel>
-                //{
-                //    transaction
-                //};
-                //}
-                //else
-                //{
-                //    account.TransactionsList.Add(transaction);
-                //}
+                if (account.TransactionsList == null)
+                {
+                    account.TransactionsList = new List<TransactionsModel>
+                    {
+                        transaction,
+                    };
+                }
+                else
+                {
+                    account.TransactionsList.Add(transaction);
+                }
                 _bankContext.Update(account);
 
                 await _bankContext.SaveChangesAsync();
                 break;
-
             }
-
         }
      
     }
@@ -86,7 +77,7 @@ public class BankService : IBankService
 
         var accountNum = account.First().AccountNumber.ToString();
 
-        if (accountNum == null)
+        if (accountNum != null)
         {
             await AddTransaction(Deposit, accountNum, "Account created."); //It doesn't make a difference to wait or not
         }
@@ -108,7 +99,6 @@ public class BankService : IBankService
         return customerId.ToString(); 
 
     }
-
    
     public async Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNum)
     {
