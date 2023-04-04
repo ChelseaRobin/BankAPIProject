@@ -12,7 +12,7 @@ namespace BankAPI.Models
         public int Balance { get; set; } //inital deposit
 
         public virtual CustomerModel Customer { get; set; }
-        public virtual ICollection<TransactionsModel> TransactionsList { get; set; }
+        public virtual ICollection<TransferHistory> TransactionsList { get; set; }
 
     }
 }

@@ -12,7 +12,7 @@ public class BankContext : DbContext
 
     public DbSet<AccountModel> Accounts { get; set; } = null!;
     public DbSet<CustomerModel> Customers { get; set; } = null!;
-    public DbSet<TransactionsModel> TransactionsModel { get; set; } = null!;
+    public DbSet<TransferHistory> TransactionsModel { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) //specifies tables and their relationships
     {

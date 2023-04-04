@@ -18,7 +18,7 @@ namespace BankAPI.Controllers
 
         // GET: api/TransactionsModels/5
         [HttpGet("GetByAccountNumber")]  //Get by account number
-        public async Task<List<TransactionsModel>> GetTransactionsModel(string accountNumber)
+        public async Task<List<TransferHistory>> GetTransactionsModel(string accountNumber)
         {
             var transactions = await _context.TransactionsModel.Where(a => a.AccountNumber.Equals(accountNumber)).ToListAsync();
 

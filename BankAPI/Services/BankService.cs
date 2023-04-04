@@ -16,7 +16,7 @@ public class BankService : IBankService
     public async Task AddTransaction(int balance, string accNum, string msg)
     {
 
-        var transaction = new TransactionsModel()
+        var transaction = new TransferHistory()
         {
             Balance = balance,
             AccountNumber = accNum,
@@ -32,7 +32,7 @@ public class BankService : IBankService
             {
                 if (account.TransactionsList == null)
                 {
-                    account.TransactionsList = new List<TransactionsModel>
+                    account.TransactionsList = new List<TransferHistory>
                     {
                         transaction,
                     };
@@ -77,11 +77,6 @@ public class BankService : IBankService
 
         var accountNum = account.First().AccountNumber.ToString();
 
-        if (accountNum != null)
-        {
-            await AddTransaction(Deposit, accountNum, "Account created."); //It doesn't make a difference to wait or not
-        }
-
         return accountNum;
     }
 
@@ -123,8 +118,8 @@ public class BankService : IBankService
 
         await _bankContext.SaveChangesAsync();
 
-        await AddTransaction(recipient.Balance, recipientAccNum, "Funds Received.");
-        await AddTransaction(sender.Balance, senderAccNum, "Funds transfered successfully.");
+        await AddTransaction(recipient.Balance, recipientAccNum, "Funds received.");
+        await AddTransaction(sender.Balance, senderAccNum, "Funds sent.");
 
         return "Transfer success!";
 
