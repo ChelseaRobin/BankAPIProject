@@ -22,35 +22,6 @@ public class BankContext : DbContext
 
         modelBuilder.Entity<AccountModel>()
                     .HasMany(a => a.TransactionsList);
-
-        modelBuilder.Seed();
-
-        //var customers = new CustomerModel[] {
-        //        new CustomerModel(){ CustomerId = 1, Name = "Arisha Barron" },
-        //        new CustomerModel(){ CustomerId = 2, Name = "Branden Gibson" },
-        //        new CustomerModel(){ CustomerId = 3, Name = "Rhonda Church" },
-        //        new CustomerModel(){ CustomerId = 4, Name = "Georgina Hazel" }
-        //    };
-
-        //modelBuilder.Entity<CustomerModel>()
-        //    .HasData(new CustomerModel() { CustomerId = 1, Name = "Arisha Barron" });
-
-        //base.OnModelCreating(modelBuilder); //what does this do?
     }
     
-}
-
-public static class ModelBuilderExtensions
-{
-    public static void Seed(this ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<CustomerModel>().HasData(
-            new CustomerModel
-            {
-                CustomerId = 1,
-                Name = "Arisha Barron",
-
-            }
-        );
-    }
 }

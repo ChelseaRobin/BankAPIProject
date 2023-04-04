@@ -31,18 +31,19 @@ namespace BankAPI.Controllers
         }
 
         // GET: api/AccountModels
-        [HttpGet("ByAccountNumber")] //gets account by account number
-        public async Task<ActionResult<AccountModel>> GetAccountByNum(string accountNum)
+        [HttpGet("ByAccountNumber")] //gets Balance of account by account number
+        public async Task<string> GetAccountByNum(string accountNum)
         {
-            if (_context.Accounts == null)
-            {
-                return NotFound();
-            }
-            var account = await _context.Accounts.Include(a => a.Customer).Include(a => a.TransactionsList).FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNum.AsEnumerable()));
+            //if (_context.Accounts == null)
+            //{
+            //    return NotFound();
+            //}
+            var accounts = (await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNum.AsEnumerable())));
 
-            if (account == null)
+            var account = " ";
+            if (accounts != null)
             {
-                return NotFound();
+                return account = accounts.Balance.ToString();
             }
 
             return account;
