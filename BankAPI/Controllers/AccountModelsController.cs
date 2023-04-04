@@ -34,19 +34,15 @@ namespace BankAPI.Controllers
         [HttpGet("ByAccountNumber")] //gets Balance of account by account number
         public async Task<string> GetAccountByNum(string accountNum)
         {
-            //if (_context.Accounts == null)
-            //{
-            //    return NotFound();
-            //}
             var accounts = (await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNum.AsEnumerable())));
 
             var account = " ";
-            if (accounts != null)
+            if (accounts == null)
             {
-                return account = accounts.Balance.ToString();
+                return account = "Account not Found)";
             }
 
-            return account;
+            return account = accounts.Balance.ToString();
         }
 
         // PUT: api/AccountsModels
