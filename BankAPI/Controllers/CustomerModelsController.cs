@@ -21,7 +21,7 @@ namespace BankAPI.Controllers
 
         // GET: api/CustomerModels
         [HttpGet ("GetAllCustomers")]
-        public async Task<List<CustomerModel>> GetCustomers()
+        public async Task<List<Customer>> GetCustomers()
         {
             if (_context.Customers == null)
             {
@@ -46,28 +46,28 @@ namespace BankAPI.Controllers
         }
 
         // DELETE: api/CustomerModels/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomerModel(int id)
-        {
-            if (_context.Customers == null)
-            {
-                return NotFound();
-            }
-            var customerModel = await _context.Customers.FindAsync(id);
-            if (customerModel == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteCustomerModel(int id)
+        //{
+        //    if (_context.Customers == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var customerModel = await _context.Customers.FindAsync(id);
+        //    if (customerModel == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Customers.Remove(customerModel);
-            await _context.SaveChangesAsync();
+        //    _context.Customers.Remove(customerModel);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        private bool CustomerModelExists(string name) //might reference code at a later stage
-        {
-            return (_context.Customers?.Any(e => e.Name == name)).GetValueOrDefault();
-        }
+        //private bool CustomerModelExists(string name) //might reference code at a later stage
+        //{
+        //    return (_context.Customers?.Any(e => e.Name == name)).GetValueOrDefault();
+        //}
     }
 }

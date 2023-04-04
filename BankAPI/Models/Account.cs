@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BankAPI.Models
 {
-    public class AccountModel
+    public class Account
     {
         [Key]
         public string AccountNumber { get; set; }
@@ -11,8 +11,8 @@ namespace BankAPI.Models
         public int CustomerId { get; set; }
         public int Balance { get; set; } //inital deposit
 
-        public virtual CustomerModel Customer { get; set; }
-        public virtual ICollection<TransferHistory> TransactionsList { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual ICollection<TransferHistory> TransferHistory { get; set; }
 
     }
 }

@@ -10,18 +10,18 @@ public class BankContext : DbContext
     {
     }
 
-    public DbSet<AccountModel> Accounts { get; set; } = null!;
-    public DbSet<CustomerModel> Customers { get; set; } = null!;
-    public DbSet<TransferHistory> TransactionsModel { get; set; } = null!;
+    public DbSet<Account> Accounts { get; set; } = null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
+    public DbSet<TransferHistory> TransferHistory { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) //specifies tables and their relationships
     {
-        modelBuilder.Entity<CustomerModel>()
+        modelBuilder.Entity<Customer>()
                     .HasMany(c => c.AccountsList)
                     .WithOne(a => a.Customer);
 
-        modelBuilder.Entity<AccountModel>()
-                    .HasMany(a => a.TransactionsList);
+        modelBuilder.Entity<Account>()
+                    .HasMany(a => a.TransferHistory);
     }
     
 }

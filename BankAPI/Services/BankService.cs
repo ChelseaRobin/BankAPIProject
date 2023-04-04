@@ -30,16 +30,16 @@ public class BankService : IBankService
         {
             if (account.AccountNumber == accNum)
             {
-                if (account.TransactionsList == null)
+                if (account.TransferHistory == null)
                 {
-                    account.TransactionsList = new List<TransferHistory>
+                    account.TransferHistory = new List<TransferHistory>
                     {
                         transaction,
                     };
                 }
                 else
                 {
-                    account.TransactionsList.Add(transaction);
+                    account.TransferHistory.Add(transaction);
                 }
                 _bankContext.Update(account);
 
@@ -52,9 +52,9 @@ public class BankService : IBankService
 
     public async Task<string> CreateAccount(int CustomerId, int Deposit)
     {
-        var account = new List<AccountModel> 
+        var account = new List<Account> 
             {
-                new AccountModel()
+                new Account()
                 {
                     AccountNumber = Guid.NewGuid().ToString(),
                     CustomerId = CustomerId,
@@ -82,7 +82,7 @@ public class BankService : IBankService
 
     public async Task<string> CreateCustomer(string CustomerName) //this doesn't work
     {
-        _bankContext.Customers.Add(new CustomerModel() //create new customer
+        _bankContext.Customers.Add(new Customer() //create new customer
         {
             Name = CustomerName, //adds name to create customer
         });

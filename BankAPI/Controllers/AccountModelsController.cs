@@ -21,33 +21,33 @@ namespace BankAPI.Controllers
 
         // GET: api/AccountModels
         [HttpGet("GetAllAccounts")]
-        public async Task<ActionResult<IEnumerable<AccountModel>>> GetAccounts()
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
             if (_context.Accounts == null)
             {
                 return NotFound();
             }
-            return await _context.Accounts.Include(c => c.Customer.AccountsList).ToListAsync(); //incluse customer that have the same name
+            return await _context.Accounts.Include(c => c.Customer).ToListAsync(); //incluse customer that have the same name
         }
 
         // GET: api/AccountModels
-        [HttpGet("ByAccountNumber")] //gets Balance of account by account number
+        [HttpGet("GetBalance")] //gets Balance of account by account number
         public async Task<string> GetAccountByNum(string accountNum)
         {
-            var accounts = (await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNum.AsEnumerable())));
+            var fullAccount = (await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNum.AsEnumerable())));
 
             var account = " ";
-            if (accounts == null)
+            if (fullAccount == null)
             {
                 return account = "Account not Found)";
             }
 
-            return account = accounts.Balance.ToString();
+            return account = fullAccount.Balance.ToString();
         }
 
         // PUT: api/AccountsModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("Transfer")] //Updates balances
+        [HttpPut("TransferFunds")] //Updates balances
         public async Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNumm)
         {
             var update = await _methods.TransferFunds(Amount, senderAccNum, recipientAccNumm);
@@ -78,26 +78,26 @@ namespace BankAPI.Controllers
 
 
         // DELETE: api/AccountModels
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccountModel(int id)
-        {
-            if (_context.Accounts == null)
-            {
-                return NotFound();
-            }
-            var accountModel = await _context.Accounts.FindAsync(id);
-            if (accountModel == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteAccountModel(int id)
+        //{
+        //    if (_context.Accounts == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var accountModel = await _context.Accounts.FindAsync(id);
+        //    if (accountModel == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Accounts.Remove(accountModel);
-            await _context.SaveChangesAsync();
+        //    _context.Accounts.Remove(accountModel);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        private bool CustomerExists(int id) //I don't need this at the moment
+        private bool CustomerExists(int id) 
         {
             return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
         }

@@ -11,12 +11,12 @@ namespace BankAPI.Models
             using (var context = new BankContext(serviceProvider.GetRequiredService<DbContextOptions<BankContext>>()))
             {
 
-                var customers = new CustomerModel[] 
+                var customers = new Customer[] 
                 {
-                        new CustomerModel(){ CustomerId = 1, Name = "arisha barron" },
-                        new CustomerModel(){ CustomerId = 2, Name = "branden gibson" },
-                        new CustomerModel(){ CustomerId = 3, Name = "rhonda church" },
-                        new CustomerModel(){ CustomerId = 4, Name = "georgina hazel" }
+                        new Customer(){ CustomerId = 1, Name = "arisha barron" },
+                        new Customer(){ CustomerId = 2, Name = "branden gibson" },
+                        new Customer(){ CustomerId = 3, Name = "rhonda church" },
+                        new Customer(){ CustomerId = 4, Name = "georgina hazel" }
                 };
 
                 context.Customers.AddRange(customers);

@@ -3,12 +3,12 @@ using System.Text.Json.Serialization;
 
 namespace BankAPI.Models
 {
-    public class CustomerModel
+    public class Customer
     {
         [Key]
         public int CustomerId { get; set; } //customers id
         public string Name { get; set; } //name of customer
-        public virtual ICollection<AccountModel> AccountsList { get; set; }
+        public virtual ICollection<Account> AccountsList { get; set; }
 
     }
 }
