@@ -6,7 +6,8 @@ namespace BankAPI.Models
 {
     public static class PopulateCustomers
     {
-        public static async void Initialize(IServiceProvider serviceProvider)
+        public static async         Task
+Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new BankContext(serviceProvider.GetRequiredService<DbContextOptions<BankContext>>()))
             {
