@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using BankAPI.Models;
 using System.Collections.Generic;
+using BankAPI.Services;
+using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
 
 namespace BankAPI.Controllers
 {
@@ -11,9 +13,12 @@ namespace BankAPI.Controllers
     {
         private readonly BankContext _context;
 
-        public TransferHistoryModelsController(BankContext context)
+        private readonly IBankService _methods;
+
+        public TransferHistoryModelsController(BankContext context, IBankService methods)
         {
             _context = context;
+            _methods = methods;
         }
 
         // GET: api/TransferHistory
@@ -30,29 +35,12 @@ namespace BankAPI.Controllers
             return transactions;
         }
 
-        //// DELETE: api/TransactionsModels/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteTransactionsModel(int id)
-        //{
-        //    if (_context.TransferHistory == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var transactionsModel = await _context.TransferHistory.FindAsync(id);
-        //    if (transactionsModel == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //// DELETE: api/TransferHistory/5
+        [HttpDelete]
+        public async Task<string> DeleteTransactionsModel(string accountNumber)
+        {
+            return await _methods.DeleteTransferHistory(accountNumber);
+        }
 
-        //    _context.TransferHistory.Remove(transactionsModel);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool AccountExists(string accountNumber)
-        //{
-        //    return (_context.TransferHistory?.Any(e => e.AccountNumber == accountNumber)).GetValueOrDefault();
-        //}
     }
 }

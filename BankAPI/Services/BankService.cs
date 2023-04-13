@@ -83,6 +83,27 @@ public class BankService : IBankService
         return accountNum;
     }
 
+    public async Task<string> DeleteAccount(string AccountNumber)
+    {
+        var accounts = _bankContext.Accounts;
+
+
+        if (accounts == null)
+        {
+            return "Not Found";
+        }
+
+        foreach (var account in accounts)
+        {
+            if (account.AccountNumber == AccountNumber)
+            {
+                _bankContext.Accounts.Remove(account);
+                await _bankContext.SaveChangesAsync();
+            }
+        }
+        return "Account successfully deleted.";
+    }
+
     public async Task<string> CreateCustomer(string CustomerName) //this doesn't work
     {
         _bankContext.Customers.Add(new Customer() //create new customer
@@ -115,6 +136,25 @@ public class BankService : IBankService
         await _bankContext.SaveChangesAsync();
 
         return "Customer deleted";
+    }
+
+    public async Task<string> DeleteTransferHistory(string accountNumber)
+    {
+        var transferHistory = _bankContext.TransferHistory;
+        if (transferHistory == null)
+        {
+            return "Not Found";
+        }
+
+        foreach (var transfer in transferHistory)
+        {
+            if (transfer.AccountNumber == accountNumber)
+            {
+                _bankContext.TransferHistory.RemoveRange(transfer);
+                await _bankContext.SaveChangesAsync();
+            }
+        }
+        return "Transfer History successfully deleted for account: " + accountNumber;
     }
 
     public async Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNum)

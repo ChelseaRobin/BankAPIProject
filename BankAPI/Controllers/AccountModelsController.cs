@@ -78,24 +78,11 @@ namespace BankAPI.Controllers
 
 
         // DELETE: api/AccountModels
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteAccountModel(int id)
-        //{
-        //    if (_context.Accounts == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var accountModel = await _context.Accounts.FindAsync(id);
-        //    if (accountModel == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Accounts.Remove(accountModel);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
+        [HttpDelete("DeleteAccount")]
+        public async Task<string> DeleteAccount(string AccountNumber)
+        {
+            return await _methods.DeleteAccount(AccountNumber);
+        }
 
         private bool CustomerExists(int id) 
         {

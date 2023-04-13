@@ -13,5 +13,7 @@ namespace BankAPI.Services
         Task AddTransaction(int balance, string accNum, string msg);
 
         Task<string> DeleteCustomer(int id);
+        Task<string> DeleteAccount(string AccountNumber);
+        Task<string> DeleteTransferHistory(string accountNumber);
     }
 }
