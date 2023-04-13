@@ -23,16 +23,16 @@ namespace BankAPI.Controllers
         [HttpGet("GetAllAccounts")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
-            if (_context.Accounts == null)
-            {
-                return NotFound();
-            }
+            //if (_context.Accounts == null)
+            //{
+            //    return NotFound();
+            //}
             return await _context.Accounts.Include(c => c.Customer).ToListAsync(); //incluse customer that have the same name
         }
 
         // GET: api/AccountModels
         [HttpGet("GetBalance")] //gets Balance of account by account number
-        public async Task<string> GetAccountByNum(string accountNum)
+        public async Task<string> GetBalance(string accountNum)
         {
             var fullAccount = (await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber.Equals(accountNum.AsEnumerable())));
 

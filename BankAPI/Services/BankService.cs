@@ -1,5 +1,8 @@
 ﻿using BankAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
+using System.Text.RegularExpressions;
 
 namespace BankAPI.Services;
 
@@ -91,10 +94,29 @@ public class BankService : IBankService
 
         var customerId = _bankContext.Customers.Count();
 
-        return customerId.ToString(); 
+        return customerId.ToJson(); 
 
     }
-   
+
+    public async Task<string> DeleteCustomer(int id)
+    {
+        if (_bankContext.Customers == null)
+        {
+            return "Not Found";
+        }
+        var customerModel = await _bankContext.Customers.FindAsync(id);
+        if (customerModel == null)
+        {
+            return "Not Found";
+        }
+
+        _bankContext.Customers.RemoveRange(customerModel);
+
+        await _bankContext.SaveChangesAsync();
+
+        return "Customer deleted";
+    }
+
     public async Task<string> TransferFunds(int Amount, string senderAccNum, string recipientAccNum)
     {
         var account = _bankContext.Accounts;

@@ -42,7 +42,7 @@ namespace BankApiTest
 
             var createAccount = controller.CreateAccount(1, 200);
 
-            var actualResult = controller.GetAccountByNum(createAccount.ToString());
+            var actualResult = controller.GetBalance(createAccount.ToString());
 
             Assert.IsNotNull(actualResult);
 

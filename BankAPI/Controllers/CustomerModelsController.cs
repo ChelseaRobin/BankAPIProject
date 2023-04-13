@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using BankAPI.Models;
 using BankAPI.Services;
+using NuGet.Protocol;
+using System.Text.RegularExpressions;
 
 namespace BankAPI.Controllers
 {
@@ -23,11 +25,6 @@ namespace BankAPI.Controllers
         [HttpGet ("GetAllCustomers")]
         public async Task<List<Customer>> GetCustomers()
         {
-            if (_context.Customers == null)
-            {
-                throw new Exception("not found");
-            }
-
             return await _context.Customers.Include(c => c.AccountsList).ToListAsync();
         }
 
@@ -37,37 +34,14 @@ namespace BankAPI.Controllers
         [HttpPost ("CreateNewCustomer")]
         public async Task<string> CreateCustomer(string CustomerName)
         {
-            if (CustomerName == null)
-            {
-                throw new Exception("Please enter valid details."); //validation
-            }
-
             return await _methods.CreateCustomer(CustomerName);
         }
 
-        // DELETE: api/CustomerModels/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteCustomerModel(int id)
-        //{
-        //    if (_context.Customers == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var customerModel = await _context.Customers.FindAsync(id);
-        //    if (customerModel == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Customers.Remove(customerModel);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool CustomerModelExists(string name) //might reference code at a later stage
-        //{
-        //    return (_context.Customers?.Any(e => e.Name == name)).GetValueOrDefault();
-        //}
+        //DELETE: api/CustomerModels/5
+        [HttpDelete("{id}")]
+        public async Task<string> DeleteCustomerModel(int id)
+        {
+            return await _methods.DeleteCustomer(id);
+        }
     }
 }

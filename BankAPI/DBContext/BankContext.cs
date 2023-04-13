@@ -22,6 +22,9 @@ public class BankContext : DbContext
 
         modelBuilder.Entity<Account>()
                     .HasMany(a => a.TransferHistory);
+
+        modelBuilder.Entity<Account>()
+            .HasOne(a => a.Customer);
     }
     
 }
