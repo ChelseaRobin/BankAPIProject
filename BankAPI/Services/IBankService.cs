@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BankAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BankAPI.Services
 {
@@ -15,5 +16,7 @@ namespace BankAPI.Services
         Task<string> DeleteCustomer(int id);
         Task<string> DeleteAccount(string AccountNumber);
         Task<string> DeleteTransferHistory(string accountNumber);
+
+        Task<List<TransferHistory>> GetTransferHistory(string accountNumber);
     }
 }

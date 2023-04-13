@@ -23,11 +23,7 @@ namespace BankAPI.Controllers
         [HttpGet("GetAllAccounts")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
-            //if (_context.Accounts == null)
-            //{
-            //    return NotFound();
-            //}
-            return await _context.Accounts.Include(c => c.Customer).ToListAsync(); //incluse customer that have the same name
+            return await _context.Accounts.Include(c => c.Customer).ToListAsync(); //include customer that have the same name
         }
 
         // GET: api/AccountModels
@@ -39,7 +35,7 @@ namespace BankAPI.Controllers
             var account = " ";
             if (fullAccount == null)
             {
-                return account = "Account not Found)";
+                return account = "Account not Found";
             }
 
             return account = fullAccount.Balance.ToString();

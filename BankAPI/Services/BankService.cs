@@ -105,7 +105,7 @@ public class BankService : IBankService
         return "Account successfully deleted.";
     }
 
-    public async Task<string> CreateCustomer(string CustomerName) //this doesn't work
+    public async Task<string> CreateCustomer(string CustomerName) 
     {
         _bankContext.Customers.Add(new Customer() //create new customer
         {
@@ -120,23 +120,26 @@ public class BankService : IBankService
 
     }
 
-    public async Task<string> DeleteCustomer(int id)
+    public async Task<string> DeleteCustomer(int CustomerId)
     {
-        if (_bankContext.Customers == null)
+        var customer = await _bankContext.Customers.FindAsync(CustomerId);
+
+        if (customer == null)
         {
             return "Not Found";
         }
-        var customerModel = await _bankContext.Customers.FindAsync(id);
-        if (customerModel == null)
+
+        var accounts = _bankContext.Accounts;
+
+        foreach (var account in accounts) 
         {
-            return "Not Found";
+            if (account.CustomerId == CustomerId)
+            {
+                await DeleteAccount(account.AccountNumber);
+                await _bankContext.SaveChangesAsync();
+            }
         }
-
-        _bankContext.Customers.RemoveRange(customerModel);
-
-        await _bankContext.SaveChangesAsync();
-
-        return "Customer deleted";
+        return "Customer deleted.";
     }
 
     public async Task<string> DeleteTransferHistory(string accountNumber)
@@ -188,6 +191,11 @@ public class BankService : IBankService
 
     }
 
+    public async Task<List<TransferHistory>> GetTransferHistory(string accountNumber)
+    {
+        return await _bankContext.TransferHistory.Where(a => a.AccountNumber.Equals(accountNumber)).ToListAsync();
+    }
+
     /*private methods only used by public methods in this folder */
     private int RecipientCalcu(int Amount, int Recipient)
     {
@@ -200,5 +208,4 @@ public class BankService : IBankService
         var NewBalance = Sender - Amount;
         return NewBalance;
     }
-
 }

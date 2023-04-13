@@ -15,6 +15,10 @@ namespace BankAPI.ErrorHandling
             {
                 await next(context);
             }
+            catch (NullReferenceException ex)
+            {
+                _logger.LogInformation(ex.Message.ToString());
+            }
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message.ToString());
