@@ -11,18 +11,18 @@ namespace BankAPI.Controllers
     [ApiController]
     public class TransferHistoryModelsController : ControllerBase
     {
-        private readonly IBankService _methods;
+        private readonly BankContext _context;
 
-        public TransferHistoryModelsController(IBankService methods)
+        public TransferHistoryModelsController(BankContext context)
         {
-            _methods = methods;
+            _context = context;
         }
 
         // GET: api/TransferHistory
         [HttpGet("GetTransferHistory")]  //Get by account number
         public async Task<List<TransferHistory>> GetTransferHistory(string accountNumber)
         {
-            return await _methods.GetTransferHistory(accountNumber);
+            return await _context.TransferHistory.Where(a => a.AccountNumber.Equals(accountNumber)).ToListAsync();
         }
     }
 }

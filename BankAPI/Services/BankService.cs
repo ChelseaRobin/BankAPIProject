@@ -1,8 +1,6 @@
 ﻿using BankAPI.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
-using System.Text.RegularExpressions;
 
 namespace BankAPI.Services;
 
@@ -16,14 +14,15 @@ public class BankService : IBankService
         _bankContext = bankContext;
     }
 
-    public async Task AddTransaction(int balance, string accNum, string msg)
+    public async Task AddTransaction(int ammount, int balance, string accNum, string msg)
     {
 
         var transaction = new TransferHistory()
         {
-            Balance = balance,
+            CurrentBalance = balance,
             AccountNumber = accNum,
             Message = msg,
+            Amount = ammount,
             DateTimeStamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
         };
         
@@ -136,6 +135,7 @@ public class BankService : IBankService
             if (account.CustomerId == CustomerId)
             {
                 await DeleteAccount(account.AccountNumber);
+                _bankContext.Customers.RemoveRange(customer);
                 await _bankContext.SaveChangesAsync();
             }
         }
@@ -184,17 +184,13 @@ public class BankService : IBankService
 
         await _bankContext.SaveChangesAsync();
 
-        await AddTransaction(recipient.Balance, recipientAccNum, "Funds received.");
-        await AddTransaction(sender.Balance, senderAccNum, "Funds sent.");
+        await AddTransaction(Amount, recipient.Balance, recipientAccNum, "Funds received from "+senderAccNum);
+        await AddTransaction(Amount, sender.Balance, senderAccNum, "Funds sent to "+recipientAccNum);
 
         return "Transfer success!";
 
     }
 
-    public async Task<List<TransferHistory>> GetTransferHistory(string accountNumber)
-    {
-        return await _bankContext.TransferHistory.Where(a => a.AccountNumber.Equals(accountNumber)).ToListAsync();
-    }
 
     /*private methods only used by public methods in this folder */
     private int RecipientCalcu(int Amount, int Recipient)

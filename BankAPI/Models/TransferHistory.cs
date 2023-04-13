@@ -9,9 +9,14 @@ namespace BankAPI.Models
         [Key]
         [JsonIgnore]
         public int Id { get; set; }
+
+        [JsonIgnore]
         public string AccountNumber { get; set; }
-        public int Balance { get; set; }
+        
+        public int Amount { get; set; }
         public string Message { get; set; }
+
+        public int CurrentBalance { get; set; }
         public string DateTimeStamp{ get; set; }
     }
 }

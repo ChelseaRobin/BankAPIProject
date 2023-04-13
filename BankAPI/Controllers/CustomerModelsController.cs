@@ -38,7 +38,7 @@ namespace BankAPI.Controllers
         }
 
         //DELETE: api/CustomerModels/5
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteCustomer")]
         public async Task<string> DeleteCustomerModel(int id)
         {
             return await _methods.DeleteCustomer(id);
