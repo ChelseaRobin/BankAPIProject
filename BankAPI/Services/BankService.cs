@@ -98,6 +98,7 @@ public class BankService : IBankService
             if (account.AccountNumber == AccountNumber)
             {
                 _bankContext.Accounts.Remove(account);
+                await DeleteTransferHistory(AccountNumber); //deletes account transfer history when the account is deleted
                 await _bankContext.SaveChangesAsync();
             }
         }
@@ -187,6 +188,7 @@ public class BankService : IBankService
 
     }
 
+    /*private methods only used by public methods in this folder */
     private int RecipientCalcu(int Amount, int Recipient)
     {
         var NewBalance = Recipient + Amount;

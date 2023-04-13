@@ -34,13 +34,5 @@ namespace BankAPI.Controllers
 
             return transactions;
         }
-
-        //// DELETE: api/TransferHistory/5
-        [HttpDelete]
-        public async Task<string> DeleteTransactionsModel(string accountNumber)
-        {
-            return await _methods.DeleteTransferHistory(accountNumber);
-        }
-
     }
 }
